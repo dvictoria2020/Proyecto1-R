@@ -192,6 +192,12 @@ PATENTES_ACTIVAS_09_11_2020 &lt;-
     file = &#39;https://dvictoria2020.github.io/Proyecto1-R//PATENTES_ACTIVAS_09_11_2020.csv&#39;,
     sep = &quot;;&quot;
     )</code></pre>
+<pre class="r"><code># Lectura de una capa vectorial (GeoJSON) de limite distrital de Santa Ana
+limite_distrital &lt;-
+  st_read(
+    &quot;https://dvictoria2020.github.io/Proyecto1-R/limite_distrital.geojson&quot;,
+    quiet = TRUE
+  )</code></pre>
 </div>
 
 
