@@ -40,13 +40,47 @@ limite_distrital <-
   st_transform(4326)
 
 # Lectura de archivo CSV de patentes comerciales en Santa Ana
-PATENTES_ACTIVAS_09_11_2020 <-
+Patentes <-
   st_read(
-    "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/PATENTES_ACTIVAS_09_11_2020.csv",
+    "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/Patentes.csv",
     options = c(
-      "X_POSSIBLE_NAMES=Norte",
-      "Y_POSSIBLE_NAMES=Este"
+      "X_POSSIBLE_NAMES=lat",
+      "Y_POSSIBLE_NAMES=long"
     ),
     quiet = TRUE
   )
 
+# Asignación de un CRS al objeto patentes
+st_crs(Patentes) <- 4326
+
+```
+
+
+```{r datos, warning=FALSE, message=FALSE}
+# Lectura de una capa vectorial (GeoJSON) de limite distrital de Santa Ana
+limite_distrital <-
+  st_read(
+    "https://dvictoria2020.github.io/Proyecto1-R/limite_distrital.geojson",
+    quiet = TRUE
+  )
+```
+
+
+```{r tabla-patentes}
+PATENTES_ACTIVAS_09_11_2020 %>%
+  st_drop_geometry() %>%
+  select(N_patente, Nombre_comercio, Actividad, Permiso_salud, Aprobacion, N_finca, Direccion_comercio, Distrito ) %>%
+  datatable(felidae, options = list(
+    language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'),
+    pageLenth =5
+  ))
+```
+
+
+# Graficos
+
+## Distribución de las actividades comerciales por distrito en Santa Ana 
+
+```{r Grafico }
+
+```
