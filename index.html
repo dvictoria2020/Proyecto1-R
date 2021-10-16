@@ -188,6 +188,22 @@ limite_distrital &lt;-
   st_read(
     &quot;https://dvictoria2020.github.io/Proyecto1-R/limite_distrital.geojson&quot;,
     quiet = TRUE
+  )
+
+# Transformación del CRS del objeto división distrital
+limite_distrital &lt;-
+  limite_distrital %&gt;%
+  st_transform(4326)
+
+# Lectura de archivo CSV de patentes comerciales en Santa Ana
+PATENTES_ACTIVAS_09_11_2020 &lt;-
+  st_read(
+    &quot;/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/PATENTES_ACTIVAS_09_11_2020.csv&quot;,
+    options = c(
+      &quot;X_POSSIBLE_NAMES=Norte&quot;,
+      &quot;Y_POSSIBLE_NAMES=Este&quot;
+    ),
+    quiet = TRUE
   )</code></pre>
 </div>
 
