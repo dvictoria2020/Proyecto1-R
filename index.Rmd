@@ -1,0 +1,37 @@
+---
+title: "Proyecto 1 R"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Carga de paquetes y de datos
+
+```{r paquetes, warning=FALSE, message=FALSE}
+# Paquete para manipulación de datos
+library(dplyr)
+# Paquete para manejo de datos vectoriales
+library(sf)
+# Paquetes para manejo de datos raster
+library(terra)
+# Paquete para manejo de tablas
+library(DT)
+# Paquetes para graficación
+library(ggplot2)
+library(plotly)
+# Paquete para mapas interactivos
+library(leaflet)
+```
+
+# Tabla
+
+```{r}
+# Carga de datos desde un archivo CSV
+PATENTES_ACTIVAS_09_11_2020 <-   
+  read.csv(
+    file = 'https://dvictoria2020.github.io/Proyecto1-R//PATENTES_ACTIVAS_09_11_2020.csv',
+    sep = ";"
+    )
+```
