@@ -26,4 +26,12 @@ library(leaflet)
 ```
 
 
+```{r datos, warning=FALSE, message=FALSE}
+# Lectura de una capa vectorial (GeoJSON) de división distrial
+limite_distrital <-
+  st_read(
+    "https://dvictoria2020.github.io/Proyecto1-R/limite_distrital.geojson",
+    quiet = TRUE
+  )
+```
 

@@ -183,6 +183,12 @@ library(ggplot2)
 library(plotly)
 # Paquete para mapas interactivos
 library(leaflet)</code></pre>
+<pre class="r"><code># Lectura de una capa vectorial (GeoJSON) de división distrial
+limite_distrital &lt;-
+  st_read(
+    &quot;https://dvictoria2020.github.io/Proyecto1-R/limite_distrital.geojson&quot;,
+    quiet = TRUE
+  )</code></pre>
 </div>
 
 
