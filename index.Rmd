@@ -25,25 +25,5 @@ library(plotly)
 library(leaflet)
 ```
 
-# Tabla
-
-```{r}
-# Carga de datos desde un archivo CSV
-PATENTES_ACTIVAS_09_11_2020 <-   
-  read.csv(
-    file = 'https://dvictoria2020.github.io/Proyecto1-R//PATENTES_ACTIVAS_09_11_2020.csv',
-    sep = ";"
-    )
-```
-
-```{r datos, warning=FALSE, message=FALSE}
-# Lectura de una capa vectorial (GeoJSON) de limite distrital de Santa Ana
-limite_distrital <-
-  st_read(
-    "https://dvictoria2020.github.io/Proyecto1-R/limite_distrital.geojson",
-    quiet = TRUE
-  )
-```
-
 
 
