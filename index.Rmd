@@ -40,9 +40,9 @@ limite_distrital <-
   st_transform(4326)
 
 # Lectura de archivo CSV de patentes comerciales en Santa Ana
-Patente_punto_final <-
+Patente_punto <-
   st_read(
-    "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/Patente_punto_final.csv",
+    "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/Patente_punto.csv",
     options = c(
       "X_POSSIBLE_NAMES=lat",
       "Y_POSSIBLE_NAMES=long"
@@ -51,7 +51,7 @@ Patente_punto_final <-
   )
 
 # Asignación de un CRS al objeto patentes
-st_crs(Patente_punto_final) <- 4326
+st_crs(Patente_punto) <- 4326
 
 
 # Lectura de capa raster de uso urbano
@@ -59,17 +59,16 @@ uso_urbano_rWGS <-
   rast(
     "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/uso_urbano_rWGS.tif",
   )
-
 ```
 
 
 # Tabla
 
 ```{r tabla}
-  Patente_punto_final %>%
+  Patente_punto %>%
   st_drop_geometry() %>%
-  select(N_patente, Aprobacion,Nombre_com, Actividad, Permiso_sa, Rotulo, N_finca, Tipo_perso, Direccion_, Distrito) %>%
-  datatable(Patente_punto_final, options = list(
+  select(N_patente, Aprobacion, Actividad, Permiso_sa, Rotulo, N_finca, Tipo_perso, Direccion_, Distrito) %>%
+  datatable(Patente_punto, options = list(
     language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'),
     pageLenth =5
   ))
@@ -96,5 +95,12 @@ leaflet() %>%
     fillColor = "transparent",
     stroke = TRUE,
     weight = 1.0,
+  )%>% 
+  addCircleMarkers(
+    data = Patente_punto,
+    stroke = F,
+    radius = 4,
+    fillColor = 'orange',
+    fillOpacity = 1
   )
 ```
