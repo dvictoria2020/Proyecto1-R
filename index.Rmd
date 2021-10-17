@@ -40,9 +40,9 @@ limite_distrital <-
   st_transform(4326)
 
 # Lectura de archivo CSV de patentes comerciales en Santa Ana
-Patente_punto <-
+Patente_punto_final <-
   st_read(
-    "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/Patente_punto.csv",
+    "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/Patente_punto_final.csv",
     options = c(
       "X_POSSIBLE_NAMES=lat",
       "Y_POSSIBLE_NAMES=long"
@@ -51,7 +51,8 @@ Patente_punto <-
   )
 
 # Asignación de un CRS al objeto patentes
-st_crs(Patente_punto) <- 4326
+st_crs(Patente_punto_final) <- 4326
+
 
 ```
 
@@ -59,10 +60,10 @@ st_crs(Patente_punto) <- 4326
 # Tabla
 
 ```{r tabla}
-  Patente_punto %>%
+  Patente_punto_final %>%
   st_drop_geometry() %>%
-  select(N_patente, Aprobacion, Actividad, Permiso_sa, Rotulo, N_finca, Tipo_perso, Direccion_, Distrito) %>%
-  datatable(Patente_punto, options = list(
+  select(N_patente, Aprobacion,Nombre_com, Actividad, Permiso_sa, Rotulo, N_finca, Tipo_perso, Direccion_, Distrito) %>%
+  datatable(Patente_punto_final, options = list(
     language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'),
     pageLenth =5
   ))
@@ -70,15 +71,3 @@ st_crs(Patente_punto) <- 4326
 
 
 
-# Graficos
-
-## Distribución de las actividades comerciales por distrito en Santa Ana 
-
-```{r Grafico }
-  ggplot(Patente_punto, aes(x= reorder(Distrito,  y=Actividad)) +
-  ggtitle("Actividad por distrito") +
-  xlab("Distrito") +
-  ylab("Actividad") +
-  geom_col() +
-  geom_text(aes(label= Actividad), vjust=-0.3, size=3.5)
-```
