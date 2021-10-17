@@ -54,6 +54,12 @@ Patente_punto_final <-
 st_crs(Patente_punto_final) <- 4326
 
 
+# Lectura de capa raster de uso urbano
+DeficitHabitacional <-
+  rast(
+    "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/DeficitHabitacional.png",
+  )
+
 ```
 
 
@@ -70,4 +76,7 @@ st_crs(Patente_punto_final) <- 4326
 ```
 
 
+### Mapa de distribución
 
+
+```
