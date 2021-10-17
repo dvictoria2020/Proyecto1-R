@@ -53,6 +53,13 @@ Patente_punto_final <-
 # Asignación de un CRS al objeto patentes
 st_crs(Patente_punto_final) <- 4326
 
+
+# Lectura de capa raster de uso urbano
+uso_urbano_rWGS <-
+  rast(
+    "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/uso_urbano_rWGS.tif",
+  )
+
 ```
 
 
@@ -71,3 +78,23 @@ st_crs(Patente_punto_final) <- 4326
 
 ### Mapa de distribución
 
+
+```{r mapa, warning=FALSE}
+# Conversión del objeto uso a la clase RasterLayer
+uso_urbano_rWGS_rl <- raster::raster(uso_urbano_rWGS)
+
+# Mapa leaflet básico con capas de provincias y registros de presencia de felinos
+leaflet() %>%
+  addTiles() %>%
+  addRasterImage(
+    uso_urbano_rWGS_rl, 
+    opacity = 0.8
+  )%>% 
+  addPolygons(
+    data = limite_distrital,
+    color = "black",
+    fillColor = "transparent",
+    stroke = TRUE,
+    weight = 1.0,
+  )
+```
