@@ -53,13 +53,6 @@ Patente_punto_final <-
 # Asignación de un CRS al objeto patentes
 st_crs(Patente_punto_final) <- 4326
 
-
-# Lectura de capa raster de uso urbano
-DeficitHabitacional <-
-  rast(
-    "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/DeficitHabitacional.png",
-  )
-
 ```
 
 
@@ -78,5 +71,3 @@ DeficitHabitacional <-
 
 ### Mapa de distribución
 
-
-```
