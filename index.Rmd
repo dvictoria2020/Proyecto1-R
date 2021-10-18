@@ -27,7 +27,7 @@ library(leaflet)
 
 
 ```{r datos, warning=FALSE, message=FALSE}
-# Lectura de una capa vectorial (GeoJSON) de división distrial
+# Lectura de una capa vectorial (GeoJSON) de división distrial de Santa Ana
 limite_distrital <-
   st_read(
     "https://dvictoria2020.github.io/Proyecto1-R/limite_distrital.geojson",
@@ -44,11 +44,14 @@ Patente_final <-
   st_read(
     "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/Patente_final.csv",
     options = c(
-      "X_POSSIBLE_NAMES=Longitu",
-      "Y_POSSIBLE_NAMES=Latitud"
+      "X_POSSIBLE_NAMES=Latitud",
+      "Y_POSSIBLE_NAMES=Longitu"
     ),
     quiet = TRUE
   )
+
+# Asignación de un CRS al objeto patentes
+st_crs(Patente_final) <- 4326
 
 
 # Lectura de capa raster de uso urbano
@@ -79,18 +82,41 @@ uso_urbano_rWGS <-
 # Conversión del objeto uso a la clase RasterLayer
 uso_urbano_rWGS_rl <- raster::raster(uso_urbano_rWGS)
 
-# Mapa leaflet básico con capas de provincias y registros de presencia de felinos
+# Mapa leaflet
 leaflet() %>%
-  addTiles() %>%
+  addProviderTiles("Esri.WorldImagery", group="Imagen Satelital") %>%
+  addTiles(options = providerTileOptions(noWrap = TRUE), group="Open Street Maps") %>%
   addRasterImage(
     uso_urbano_rWGS_rl, 
     opacity = 0.8
   )%>% 
   addPolygons(
     data = limite_distrital,
-    color = "black",
+    color = "purple",
     fillColor = "transparent",
     stroke = TRUE,
-    weight = 1.0,
+    weight = 2.0,
+  )%>% 
+  addCircleMarkers(
+    data = Patente_final,
+    stroke = F,
+    radius = 4,
+    fillColor = 'orange',
+    fillOpacity = 1,
+    clusterOptions = markerClusterOptions(),
+    label = "Actividad",
+    labelOptions = labelOptions(noHide = T, textsize = "15px")
+  )%>% 
+ addWMSTiles(
+    "https://sig.mivah.go.cr/server/services/cit/AsentamientosInformales/MapServer/WMSServer?request=GetCapabilities&service=WMS",
+    layers = "Asentameintos",
+    options = WMSTileOptions(format = "image/png", transparent = TRUE),
+    attribution = "Weather data © 2012 IEM Nexrad"
+  )%>%
+ addLayersControl(
+   overlayGroups = c("uso_urbano_rWGS_rl","limite_distrital") ,
+   baseGroups = c("Imagen Satelital","Open Street Maps"), 
+   options = layersControlOptions(collapsed = FALSE)
   )
+	    
 ```
