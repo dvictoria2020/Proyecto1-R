@@ -45,7 +45,7 @@ Patente_final <-
     "/vsicurl/https://dvictoria2020.github.io/Proyecto1-R/Patente_final.csv",
     options = c(
       "X_POSSIBLE_NAMES=Latitud",
-      "Y_POSSIBLE_NAMES=Longitu"
+      "Y_POSSIBLE_NAMES=Longitud"
     ),
     quiet = TRUE
   )
@@ -67,7 +67,7 @@ uso_urbano_rWGS <-
 ```{r tabla}
   Patente_final %>%
   st_drop_geometry() %>%
-  select(N_patente, Aprobacion, Actividad, Permiso_sa, Rotulo, N_finca, Tipo_perso, Direccion_, Distrito) %>%
+  select(N_patente, Aprobacion, Actividad, Nombre_comercio, Permiso_salud, Rotulo, N_finca, Tipo_persona, Direccion_, Distrito) %>%
   datatable(Patente_final, options = list(
     language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'),
     pageLenth =5
