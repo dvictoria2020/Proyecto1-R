@@ -75,6 +75,11 @@ uso_urbano_rWGS <-
 ```
 
 
+
+# Graficos
+
+
+
 ### Mapa de distribución
 
 
@@ -84,19 +89,26 @@ uso_urbano_rWGS_rl <- raster::raster(uso_urbano_rWGS)
 
 # Mapa leaflet
 leaflet() %>%
-  addProviderTiles("Esri.WorldImagery", group="Imagen Satelital") %>%
+  
   addTiles(options = providerTileOptions(noWrap = TRUE), group="Open Street Maps") %>%
+  addProviderTiles("Esri.WorldImagery", group="Imagen Satelital")%>%
+  
   addRasterImage(
-    uso_urbano_rWGS_rl, 
-    opacity = 0.8
-  )%>% 
+    uso_urbano_rWGS_rl,
+    color= "#DDB892",
+    opacity = 0.6,
+    group = "Uso Urbano 2005"
+  )%>%
+  
   addPolygons(
     data = limite_distrital,
     color = "purple",
     fillColor = "transparent",
     stroke = TRUE,
     weight = 2.0,
+    group = "Limite distrital"
   )%>% 
+  
   addCircleMarkers(
     data = Patente_final,
     stroke = F,
@@ -104,18 +116,17 @@ leaflet() %>%
     fillColor = 'orange',
     fillOpacity = 1,
     clusterOptions = markerClusterOptions(),
-    label = "Actividad",
-    labelOptions = labelOptions(noHide = T, textsize = "15px")
+    group = "Patentes comerciales"
   )%>% 
- addWMSTiles(
-    "https://sig.mivah.go.cr/server/services/cit/AsentamientosInformales/MapServer/WMSServer?request=GetCapabilities&service=WMS",
-    layers = "Asentameintos",
-    options = WMSTileOptions(format = "image/png", transparent = TRUE),
-    attribution = "Weather data © 2012 IEM Nexrad"
+  
+  addMiniMap(
+    tiles = providers$OpenStreetMap,
+    toggleDisplay = TRUE
   )%>%
+ 
  addLayersControl(
-   overlayGroups = c("uso_urbano_rWGS_rl","limite_distrital") ,
-   baseGroups = c("Imagen Satelital","Open Street Maps"), 
+   baseGroups = c("Imagen Satelital","Open Street Maps"),
+   overlayGroups = c("Uso Urbano 2005","Limite distrital", "Patentes comerciales"), 
    options = layersControlOptions(collapsed = FALSE)
   )
 	    
