@@ -21,6 +21,7 @@ library(DT)
 # Paquetes para graficación
 library(ggplot2)
 library(plotly)
+library(graphics)
 # Paquete para mapas interactivos
 library(leaflet)
 ```
@@ -65,9 +66,9 @@ uso_urbano_rWGS <-
 # Tabla
 
 ```{r tabla}
-  Patente_final %>%
+ Patente_final %>%
   st_drop_geometry() %>%
-  select(N_patente, Aprobacion, Actividad, Nombre_comercio, Permiso_salud, Rotulo, N_finca, Tipo_persona, Direccion_, Distrito) %>%
+  select(N_patente, Aprobacion, Nombre_comercio, Permiso_salud, Rotulo, N_finca, Tipo_persona, Direccion_, Distrito) %>%
   datatable(Patente_final, options = list(
     language = list(url = '//cdn.datatables.net/plug-ins/1.10.11/i18n/Spanish.json'),
     pageLenth =5
@@ -79,6 +80,43 @@ uso_urbano_rWGS <-
 # Graficos
 
 
+
+```{r grafico-pastel}
+# Gráfico con tipo de persona por distrito
+
+# Conversión a porcentaje
+porcentaje_persona <-
+  Patente_final %>%
+  group_by(Tipo_persona, Distrito) %>%
+  count()
+
+```
+
+```{r}
+tipo_persona_distrito <-
+  Patente_final %>%
+  dplyr::count(Tipo_persona, Distrito)
+```
+
+```{r grafico-barras-apiladas}
+  ggplot() + geom_col(
+      data= tipo_persona_distrito,
+      aes(x= Distrito,
+          y= n, fill = Tipo_persona), width = 0.2)+
+  
+      ggtitle( "Distribución de patentes comerciales por tipo de personería
+           en los distritos de Santa Ana") +
+      xlab("Distrito") + 
+      ylab("Total de patentes") +
+      scale_fill_manual(values = c("#AFEEEE", "steelblue3")) +
+      theme (
+        legend.title = element_blank(),
+        legend.position = "right",
+        plot.title = element_text(size = 14, face = "italic")
+        
+  )
+
+```
 
 ### Mapa de distribución
 
