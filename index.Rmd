@@ -80,7 +80,7 @@ uso_urbano_rWGS <-
 
 # Gráfico barras apiladas
 
-```{r}
+```{r grafico-1}
 tipo_persona_distrito <-
   Patente_final %>%
   dplyr::count(Tipo_persona, Distrito)
@@ -105,6 +105,55 @@ tipo_persona_distrito <-
   )
 
 ```
+
+
+```{r grafico-2-pastel-licencias-por-distrito}
+
+# Convertimos a porcentaje
+  
+porcentaje <- Patente_final %>%
+  group_by(Distrito) %>%
+  count() %>%
+  ungroup() %>%
+  mutate(percentage = `n` / sum(`n`) * 100)
+
+
+ggplot(porcentaje, aes(x = 1, y = percentage, fill = Distrito)) +
+  geom_bar(stat = "identity", colour = "black", size = 0.25) +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  labs(title = "Porcentaje de licencias comerciales y de licor según 
+                 distrito en el cantón Santa Ana") +
+  theme_void() + scale_fill_brewer(palette = "Dark2")
+
+
+```
+
+
+```{r grafico-3-pastel-licencias-por-distrito}
+
+# Convertimos a porcentaje
+  
+porcentaje_rotulo <- Patente_final %>%
+  group_by(Rotulo) %>%
+  count() %>%
+  ungroup() %>%
+  mutate(percentage = `n` / sum(`n`) * 100)
+
+
+ggplot(porcentaje_rotulo, aes(x = 1, y = percentage, fill = Rotulo)) +
+  geom_bar(stat = "identity", colour = "black", size = 0.25) +
+  geom_text(aes(label = paste0(round(percentage, 1), "%")),
+            position = position_stack(vjust = 0.5)) +
+  coord_polar(theta = "y") +
+  labs(title = "Locales comerciales que han tramitado una 
+  solicitud de rótulo en el cantón Santa Ana") +
+  theme_void() + scale_fill_brewer(palette = "Blues")
+
+```
+
+
 
 ### Mapa de distribución
 
